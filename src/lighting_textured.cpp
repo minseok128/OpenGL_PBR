@@ -150,7 +150,6 @@ int main()
                 model = glm::rotate(model, 0.75f * col, glm::vec3(0.0f, 1.0f, 0.0f)); // yaw
                 shader.setMat4("model", model);
                 ourModel.Draw(shader);
-                // renderSphere();
             }
         }
 
