@@ -21,32 +21,9 @@
 #pragma comment(lib, "glfw3.lib")
 #pragma comment(lib, "assimp-vc140-mt.lib")
 
-//#define _CRT_SECURE_NO_WARNINGS
-//#include <GL/glew.h>
-//#include <GLFW/glfw3.h>
-//
-//#include <glm/glm.hpp>
-//#include <glm/gtc/matrix_transform.hpp>
-//#include <glm/gtc/type_ptr.hpp>
-//
-//#define STB_IMAGE_IMPLEMENTATION
-//#include <learnopengl/filesystem.h>
-//#include <learnopengl/shader_m.h>
-//#include <learnopengl/camera.h>
-//#include <learnopengl/model.h>
-//#undef STB_IMAGE_IMPLEMENTATION
-//
-//#include <iostream>
-//#include "object_rot.h"
-//
-//#pragma comment(lib, "opengl32.lib")
-//#pragma comment(lib, "glew32.lib")
-//#pragma comment(lib, "glfw3.lib")
-
-
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void mouse_callback(GLFWwindow* window, double xpos, double ypos);
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+void framebuffer_size_callback(GLFWwindow *window, int width, int height);
+void mouse_callback(GLFWwindow *window, double xpos, double ypos);
+void scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window);
 unsigned int loadTexture(const char *path);
 void renderSphere();
@@ -72,7 +49,7 @@ int main()
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    //glfwWindowHint(GLFW_SAMPLES, 4);
+    // glfwWindowHint(GLFW_SAMPLES, 4);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 #ifdef __APPLE__
@@ -81,7 +58,7 @@ int main()
 
     // glfw window creation
     // --------------------
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
     glfwMakeContextCurrent(window);
     if (window == NULL)
     {
@@ -115,41 +92,13 @@ int main()
     // Model ourModel(FileSystem::getPath("../resources/backpack/backpack.obj"));
     Model ourModel(FileSystem::getPath("../resources/AK47/AK47Subdiv.obj"));
 
-    //shader.use();
-    //shader.setInt("albedoMap", 0);
-    //shader.setInt("normalMap", 1);
-    //shader.setInt("metallicMap", 2);
-    //shader.setInt("roughnessMap", 3);
-    //shader.setInt("aoMap", 4);
-
-    // load PBR material textures
-    // --------------------------
-    //unsigned int albedo    = loadTexture(FileSystem::getPath("../resources/textures/pbr/rusted_iron/albedo.png").c_str());
-    //unsigned int normal    = loadTexture(FileSystem::getPath("../resources/textures/pbr/rusted_iron/normal.png").c_str());
-    //unsigned int metallic  = loadTexture(FileSystem::getPath("../resources/textures/pbr/rusted_iron/metallic.png").c_str());
-    //unsigned int roughness = loadTexture(FileSystem::getPath("../resources/textures/pbr/rusted_iron/roughness.png").c_str());
-    //unsigned int ao        = loadTexture(FileSystem::getPath("../resources/textures/pbr/rusted_iron/ao.png").c_str());
-    
-    //unsigned int albedo = loadTexture(FileSystem::getPath("../resources/backpack/diffuse.jpg").c_str());
-    //unsigned int normal = loadTexture(FileSystem::getPath("../resources/backpack/normal.png").c_str());
-    //unsigned int metallic = loadTexture(FileSystem::getPath("../resources/backpack/specular.jpg").c_str());
-    //unsigned int roughness = loadTexture(FileSystem::getPath("../resources/backpack/roughness.jpg").c_str());
-    //unsigned int ao = loadTexture(FileSystem::getPath("../resources/backpack/ao.jpg").c_str());
-
-    //unsigned int albedo = loadTexture(FileSystem::getPath("../resources/textures/pbr/plastic/albedo.png").c_str());
-    //unsigned int normal = loadTexture(FileSystem::getPath("../resources/textures/pbr/plastic/normal.png").c_str());
-    //unsigned int metallic = loadTexture(FileSystem::getPath("../resources/textures/pbr/plastic/metallic.png").c_str());
-    //unsigned int roughness = loadTexture(FileSystem::getPath("../resources/textures/pbr/plastic/roughness.png").c_str());
-    //unsigned int ao = loadTexture(FileSystem::getPath("../resources/textures/pbr/plastic/ao.png").c_str());
-
     // lights
     // ------
     glm::vec3 lightPositions[] = {
         glm::vec3(0.0f, 0.0f, 5.0f),
     };
     glm::vec3 lightColors[] = {
-        glm::vec3(300, 300, 300)
-    };
+        glm::vec3(300, 300, 300)};
     int nrRows = 5;
     int nrColumns = 5;
     float spacing = 3;
@@ -184,46 +133,29 @@ int main()
         shader.setMat4("view", view);
         shader.setVec3("camPos", camera.Position);
 
-        //glActiveTexture(GL_TEXTURE0);
-        //glBindTexture(GL_TEXTURE_2D, albedo);
-        //glActiveTexture(GL_TEXTURE1);
-        //glBindTexture(GL_TEXTURE_2D, normal);
-        //glActiveTexture(GL_TEXTURE2);
-        //glBindTexture(GL_TEXTURE_2D, metallic);
-        //glActiveTexture(GL_TEXTURE3);
-        //glBindTexture(GL_TEXTURE_2D, roughness);
-        //glActiveTexture(GL_TEXTURE4);
-        //glBindTexture(GL_TEXTURE_2D, ao);
-
         // render rows*column number of spheres with material properties defined by textures (they all have the same material properties)
         glm::mat4 model = glm::mat4(1.0f);
-        
+
         for (int row = 0; row < nrRows; ++row)
         {
             for (int col = 0; col < nrColumns; ++col)
             {
                 model = glm::mat4(1.0f);
                 model = glm::translate(model, glm::vec3(
-                    (float)(col - (nrColumns / 2)) * spacing,
-                    (float)(row - (nrRows / 2)) * spacing,
-                    0.0f
-                ));
+                                                  (float)(col - (nrColumns / 2)) * spacing,
+                                                  (float)(row - (nrRows / 2)) * spacing,
+                                                  0.0f));
                 model = glm::scale(model, glm::vec3(0.5f));
-                model = glm::rotate(model, 0.75f * row, glm::vec3(1.0f, 0.0f, 0.0f)); //pitch
-                model = glm::rotate(model, 0.75f * col, glm::vec3(0.0f, 1.0f, 0.0f)); //yaw
+                model = glm::rotate(model, 0.75f * row, glm::vec3(1.0f, 0.0f, 0.0f)); // pitch
+                model = glm::rotate(model, 0.75f * col, glm::vec3(0.0f, 1.0f, 0.0f)); // yaw
                 shader.setMat4("model", model);
                 ourModel.Draw(shader);
-                //renderSphere();
+                // renderSphere();
             }
         }
 
-
-        //model = glm::mat4(1.0f);
-        //shader.setMat4("model", model);
-        //ourModel.Draw(shader);
-
         // render light source (simply re-render sphere at light positions)
-        // this looks a bit off as we use the same shader, but it'll make their positions obvious and 
+        // this looks a bit off as we use the same shader, but it'll make their positions obvious and
         // keeps the codeprint small.
         for (unsigned int i = 0; i < sizeof(lightPositions) / sizeof(lightPositions[0]); ++i)
         {
@@ -231,12 +163,6 @@ int main()
             newPos = lightPositions[i];
             shader.setVec3("lightPositions[" + std::to_string(i) + "]", newPos);
             shader.setVec3("lightColors[" + std::to_string(i) + "]", lightColors[i]);
-
-            //model = glm::mat4(1.0f);
-            //model = glm::translate(model, newPos);
-            //model = glm::scale(model, glm::vec3(0.1f));
-            //shader.setMat4("model", model);
-            //renderSphere();
         }
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -270,17 +196,16 @@ void processInput(GLFWwindow *window)
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 // ---------------------------------------------------------------------------------------------
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
-    // make sure the viewport matches the new window dimensions; note that width and 
+    // make sure the viewport matches the new window dimensions; note that width and
     // height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
 }
 
-
 // glfw: whenever the mouse moves, this callback is called
 // -------------------------------------------------------
-void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+void mouse_callback(GLFWwindow *window, double xpos, double ypos)
 {
     if (firstMouse)
     {
@@ -300,7 +225,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
 // glfw: whenever the mouse scroll wheel scrolls, this callback is called
 // ----------------------------------------------------------------------
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+void scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
 {
     camera.ProcessMouseScroll(yoffset);
 }
@@ -350,7 +275,7 @@ void renderSphere()
             {
                 for (unsigned int x = 0; x <= X_SEGMENTS; ++x)
                 {
-                    indices.push_back(y       * (X_SEGMENTS + 1) + x);
+                    indices.push_back(y * (X_SEGMENTS + 1) + x);
                     indices.push_back((y + 1) * (X_SEGMENTS + 1) + x);
                 }
             }
@@ -359,7 +284,7 @@ void renderSphere()
                 for (int x = X_SEGMENTS; x >= 0; --x)
                 {
                     indices.push_back((y + 1) * (X_SEGMENTS + 1) + x);
-                    indices.push_back(y       * (X_SEGMENTS + 1) + x);
+                    indices.push_back(y * (X_SEGMENTS + 1) + x);
                 }
             }
             oddRow = !oddRow;
@@ -391,11 +316,11 @@ void renderSphere()
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
         float stride = (3 + 2 + 3) * sizeof(float);
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void *)0);
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, stride, (void*)(3 * sizeof(float)));
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, stride, (void *)(3 * sizeof(float)));
         glEnableVertexAttribArray(2);
-        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride, (void*)(5 * sizeof(float)));
+        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride, (void *)(5 * sizeof(float)));
     }
 
     glBindVertexArray(sphereVAO);
@@ -404,7 +329,7 @@ void renderSphere()
 
 // utility function for loading a 2D texture from file
 // ---------------------------------------------------
-unsigned int loadTexture(char const * path)
+unsigned int loadTexture(char const *path)
 {
     unsigned int textureID;
     glGenTextures(1, &textureID);
